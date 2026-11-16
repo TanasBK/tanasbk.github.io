@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pomoc Drogowa Danielewski</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Jeden świat wizualny: noc, asfalt, czerwień sygnałowa. Układ: pasek nawigacji, widoki przełączane zakładkami, ciężka kursywa w nagłówkach, pas ostrzegawczy jako motyw. */
+:root{
+  --bg:#0b0b0c;
+  --panel:#151517;
+  --line:#2a2a2e;
+  --ink:#f4f4f2;
+  --muted:#a9a9ad;
+  --red:#e0141e;
+  --red-ink:#ff4a52;
+  --display:'Archivo','Arial Narrow',Arial,sans-serif;
+  --body:'Barlow','Segoe UI',Arial,sans-serif;
+  --w:1240px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,svg{max-width:100%}
+h1,h2,h3{font-family:var(--display);font-stretch:118%;font-style:italic;text-transform:uppercase;line-height:.95;margin:0;text-wrap:balance}
+h2{font-size:clamp(38px,5vw,64px);font-weight:900;letter-spacing:-.5px}
+h3{font-size:24px;font-weight:800;letter-spacing:.3px}
+p{margin:0}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 24px}
+:focus-visible{outline:3px solid var(--red-ink);outline-offset:3px}
+.stripe{height:12px;background:repeating-linear-gradient(-45deg,var(--red) 0 20px,var(--bg) 20px 40px)}
+.eyebrow{font-family:var(--display);font-stretch:112%;font-weight:700;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:var(--red-ink);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:4px;background:var(--red)}
+.lead{color:var(--muted);font-size:19px;max-width:62ch}
+.ph{color:#ffb3b6;background:rgba(224,20,30,.14);padding:0 6px;border-radius:3px;font-weight:600;white-space:nowrap}
+
+/* Przyciski */
+.btn{font-family:var(--display);font-stretch:112%;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:1px;font-size:17px;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:2px solid var(--red);background:var(--red);color:#fff;text-decoration:none;cursor:pointer;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%)}
+.btn:hover{background:#ff2630;border-color:#ff2630}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink);clip-path:none}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+
+/* Nagłówek */
+.top{background:#000;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}
+.top .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+header.nav{position:sticky;top:0;z-index:20;background:rgba(11,11,12,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}
+.logo{display:flex;flex-direction:column;text-decoration:none;font-family:var(--display);font-style:italic;text-transform:uppercase;line-height:.9}
+.logo b{font-weight:900;font-stretch:125%;font-size:22px}
+.logo span{font-weight:800;font-stretch:125%;font-size:15px;color:var(--red-ink);letter-spacing:1px}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap}
+nav.tabs a{font-family:var(--display);font-stretch:112%;font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:1.5px;text-decoration:none;padding:12px 14px;color:var(--muted);border-bottom:3px solid transparent}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--red)}
+.nav-call{font-family:var(--display);font-style:italic;font-weight:900;font-size:22px;text-decoration:none;white-space:nowrap;font-variant-numeric:tabular-nums}
+.nav-call small{display:block;font-size:11px;font-style:normal;letter-spacing:3px;color:var(--red-ink);font-weight:700}
+.menu-btn{display:none;min-height:44px;min-width:44px;background:none;border:2px solid var(--line);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+
+/* Widoki */
+.view{display:none}
+.view.on{display:block}
+section{padding:88px 0}
+.sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:44px}
+
+/* Hero */
+.hero{padding:72px 0 0;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(48px,6.4vw,92px);font-weight:900;font-stretch:125%;letter-spacing:-2px}
+.hero h1 em{color:var(--red);font-style:italic;display:block;font-size:.42em;letter-spacing:0;margin-top:10px}
+.hero .lead{margin:26px 0 34px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-truck{width:100%;height:auto;display:block}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:64px;border-top:1px solid var(--line)}
+.facts div{padding:24px 24px 28px 0;display:flex;flex-direction:column;gap:6px}
+.facts div+div{padding-left:24px;border-left:1px solid var(--line)}
+.facts b{font-family:var(--display);font-style:italic;font-stretch:118%;font-weight:800;font-size:20px;text-transform:uppercase}
+.facts span{color:var(--muted);font-size:15px}
+
+/* Usługi */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:2px solid var(--line)}
+.svc{background:var(--panel);padding:36px 32px 40px;display:flex;flex-direction:column;gap:16px}
+.svc .num{font-family:var(--display);font-style:italic;font-weight:900;font-size:15px;color:var(--red-ink);letter-spacing:3px}
+.svc svg{width:72px;height:48px}
+.svc ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+.svc li{display:flex;gap:10px}
+.svc li::before{content:"";flex:none;width:10px;height:10px;margin-top:8px;background:var(--red);clip-path:polygon(0 0,100% 50%,0 100%)}
+.svc .more{margin-top:auto;padding-top:12px;font-family:var(--display);font-weight:700;font-style:italic;text-transform:uppercase;letter-spacing:1px;color:var(--red-ink);text-decoration:none}
+.svc .more:hover{text-decoration:underline}
+.note-bar{margin-top:28px;display:block;padding:20px 24px;border:1px dashed var(--line);color:var(--muted)}
+.note-bar b{color:var(--ink)}
+
+/* Jak działamy */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+.step{border-top:4px solid var(--red);padding-top:20px;display:flex;flex-direction:column;gap:10px}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--display);font-style:italic;font-weight:900;font-size:44px;line-height:1;color:var(--line)}
+.step p{color:var(--muted)}
+
+/* CTA */
+.cta{background:var(--red);color:#fff;padding:0}
+.cta .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:44px;padding-bottom:44px}
+.cta h2{font-size:clamp(32px,4vw,52px)}
+.cta a.num{font-family:var(--display);font-style:italic;font-weight:900;font-size:clamp(40px,6vw,76px);color:#fff;text-decoration:none;font-variant-numeric:tabular-nums;line-height:1}
+.cta p{opacity:.9;margin-top:8px}
+
+/* Ogłoszenia */
+.filters{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;padding:20px;background:var(--panel);border:1px solid var(--line);margin-bottom:28px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:160px;flex:1}
+.field label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid #3a3a40;padding:12px 14px;min-height:48px;width:100%}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--red-ink);outline:none}
+.count{color:var(--muted);font-size:15px;margin-bottom:16px}
+.cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.car{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
+.car-img{aspect-ratio:16/10;background:#1d1d20;position:relative;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.car-img svg{width:82%;height:auto}
+.badge{position:absolute;top:12px;left:12px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;background:#000;color:#ffb3b6;border:1px solid var(--red)}
+.tag{position:absolute;top:12px;right:12px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;background:var(--red);color:#fff}
+.car-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.car-body h3{font-size:22px}
+.specs{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:15px;font-variant-numeric:tabular-nums}
+.price{font-family:var(--display);font-style:italic;font-weight:900;font-size:28px;font-variant-numeric:tabular-nums;margin-top:auto}
+.price small{font-size:14px;color:var(--muted);font-style:normal;font-weight:600}
+.car .btn{min-height:46px;font-size:15px}
+.empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line)}
+
+/* Dialog szczegółów */
+dialog{background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:0;max-width:760px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+.dlg{display:flex;flex-direction:column}
+.dlg .car-img{aspect-ratio:21/9}
+.dlg-body{padding:28px;display:flex;flex-direction:column;gap:18px}
+.dlg table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.dlg td{padding:9px 0;border-bottom:1px solid var(--line)}
+.dlg td:first-child{color:var(--muted);width:42%}
+.dlg-actions{display:flex;gap:12px;flex-wrap:wrap}
+.close{position:absolute;top:10px;right:10px;min-width:44px;min-height:44px;background:#000;color:#fff;border:1px solid var(--line);font-size:22px;cursor:pointer;z-index:2}
+
+/* Portfolio */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.chip{font:inherit;font-weight:600;font-size:15px;min-height:44px;padding:0 18px;background:transparent;color:var(--muted);border:1px solid var(--line);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.job{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line)}
+.job.wide{grid-column:span 2}
+.shot{aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#18181b 0 14px,#1c1c20 14px 28px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:14px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.job.wide .shot{aspect-ratio:auto;flex:1;min-height:240px}
+.shot svg{width:46px;height:46px}
+.job-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px}
+.job-body .k{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--red-ink);font-weight:700}
+.job-body p{color:var(--muted);font-size:15px}
+
+/* Skup */
+.buy-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:start}
+.checks{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-direction:column;gap:16px}
+.checks li{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+.checks svg{width:36px;height:36px}
+.checks b{display:block}
+.checks span{color:var(--muted)}
+form.card{background:var(--panel);border:1px solid var(--line);padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+form.card .full{grid-column:1/-1}
+form.card .field{min-width:0}
+.out{grid-column:1/-1;border:1px solid var(--red);padding:18px;display:none;flex-direction:column;gap:12px;background:var(--bg)}
+.out.on{display:flex}
+.out pre{white-space:pre-wrap;font-family:var(--body);margin:0;color:var(--muted)}
+.out .row{display:flex;gap:10px;flex-wrap:wrap}
+.hint{font-size:14px;color:var(--muted)}
+
+/* FAQ */
+.faq{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:22px 48px 22px 0;position:relative;font-family:var(--display);font-stretch:112%;font-weight:700;font-size:20px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:8px;top:14px;font-size:32px;color:var(--red-ink);font-weight:400}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 0 22px;color:var(--muted);max-width:70ch}
+
+/* Kontakt */
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2px;background:var(--line);border:2px solid var(--line)}
+.contact-grid > div{background:var(--panel);padding:36px}
+.big-num{font-family:var(--display);font-style:italic;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:1;text-decoration:none;font-variant-numeric:tabular-nums;display:inline-block;margin:14px 0 22px}
+.big-num:hover{color:var(--red-ink)}
+dl.info{display:grid;grid-template-columns:auto 1fr;gap:12px 24px;margin:0}
+dl.info dt{color:var(--muted);font-size:14px;letter-spacing:2px;text-transform:uppercase;padding-top:2px}
+dl.info dd{margin:0;font-weight:600}
+
+footer{border-top:1px solid var(--line);padding:40px 0 110px;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* Pasek „Zadzwoń” na telefonie */
+.callbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--red);color:#fff;text-decoration:none;font-family:var(--display);font-style:italic;font-weight:900;font-size:22px;min-height:60px;align-items:center;justify-content:center;gap:12px;font-variant-numeric:tabular-nums}
+
+@media (max-width:1020px){
+  .hero-grid,.buy-grid,.contact-grid{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .gallery{grid-template-columns:1fr 1fr}
+  .nav-call{display:none}
+}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  nav.tabs{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column;padding:8px 16px 16px}
+  nav.tabs.open{display:flex}
+  nav.tabs a{padding:14px 4px;border-bottom:1px solid var(--line)}
+  nav.tabs a[aria-current="page"]{color:var(--red-ink);border-bottom-color:var(--line)}
+  .callbar{display:flex}
+}
+@media (max-width:620px){
+  .wrap{padding:0 16px}
+  section{padding:60px 0}
+  .facts{grid-template-columns:1fr}
+  .facts div+div{border-left:0;padding-left:0;border-top:1px solid var(--line)}
+  .steps,.gallery{grid-template-columns:1fr}
+  .job.wide{grid-column:auto}
+  form.card{grid-template-columns:1fr;padding:22px}
+  .contact-grid > div{padding:24px}
+  .top .hide-sm{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .btn,nav.tabs a,.chip{transition:background .15s,color .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <span>Holowanie · Transport aut · Skup aut</span>
+  <span class="hide-sm">Obszar działania: <span class="ph">[MIASTO / REGION]</span></span>
+</div></div>
+
+<header class="nav">
+  <div class="wrap" style="position:relative">
+    <a class="logo" href="#start" aria-label="Pomoc Drogowa Danielewski – strona główna"><b>Pomoc Drogowa</b><span>Danielewski</span></a>
+    <nav class="tabs" id="tabs" aria-label="Główna nawigacja">
+      <a href="#start">Start</a>
+      <a href="#uslugi">Usługi</a>
+      <a href="#ogloszenia">Auta na sprzedaż</a>
+      <a href="#portfolio">Realizacje</a>
+      <a href="#skup">Skup aut</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="nav-call" href="tel:+48666672900"><small>Zadzwoń</small>666 672 900</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="tabs">Menu</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ========== START ========== -->
+<div class="view" id="v-start">
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Pomoc drogowa</p>
+          <h1 style="margin-top:18px">Stoisz?<br>Przyjedziemy.<em>Holowanie · Transport · Skup</em></h1>
+          <p class="lead">Awaria, kolizja albo auto, które trzeba przewieźć z punktu A do punktu B. Przyjeżdżamy lawetą, zabieramy samochód tam, gdzie wskażesz. Odkupimy też auto, którego już nie chcesz.</p>
+          <div class="hero-actions">
+            <a class="btn" href="tel:+48666672900">Zadzwoń 666 672 900</a>
+            <a class="btn ghost" href="#skup">Wyceń auto do skupu</a>
+          </div>
+        </div>
+        <svg class="hero-truck" role="img" aria-label="Laweta przewożąca samochód, widok z boku" viewBox="0 52 640 214" fill="none" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+          <g stroke="#e0141e">
+            <path d="M246 150 V130 Q246 120 258 117 L316 107 Q348 76 390 74 H452 Q486 74 516 102 L572 112 Q590 116 590 130 V150 H548 A22 22 0 0 0 504 150 H316 A22 22 0 0 0 272 150 Z"/>
+            <path d="M338 105 Q360 86 392 84 H450 Q476 85 498 105 Z"/>
+            <path d="M420 84 V105"/>
+            <circle cx="294" cy="152" r="14"/>
+            <circle cx="526" cy="152" r="14"/>
+            <rect x="108" y="74" width="32" height="14"/>
+          </g>
+          <g stroke="#f4f4f2">
+            <path d="M26 222 V156 L58 100 Q65 88 80 88 H170 V170 H612 V186 H548 L536 222 H518 A42 42 0 0 0 434 222 H146 A42 42 0 0 0 62 222 Z"/>
+            <path d="M54 150 L78 108 H148 V150 Z"/>
+            <path d="M124 170 H146"/>
+            <path d="M186 170 V120 H212"/>
+            <circle cx="104" cy="230" r="32"/><circle cx="104" cy="230" r="10"/>
+            <circle cx="476" cy="230" r="32"/><circle cx="476" cy="230" r="10"/>
+          </g>
+          <path d="M0 262 H640" stroke="#2a2a2e" stroke-width="3" stroke-dasharray="26 18"/>
+        </svg>
+      </div>
+      <div class="facts">
+        <div><b>Laweta</b><span>Auto jedzie na platformie, nie na lince. Bez ryzyka dla skrzyni i zawieszenia.</span></div>
+        <div><b>Dojazd</b><span>Podaj miejsce przez telefon, a powiemy, kiedy będziemy na miejscu.</span></div>
+        <div><b>Gotówka lub przelew</b><span>Przy skupie płacimy od ręki, formalności załatwiamy na miejscu.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="stripe" style="margin-top:0"></div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Czym się zajmujemy</p>
+        <h2>Trzy rzeczy.<br>Robimy je porządnie.</h2>
+      </div>
+      <div class="svc-grid" id="svcShort"></div>
+      <div class="note-bar"><b>Nie prowadzimy warsztatu.</b> Nie naprawiamy samochodów. Odholujemy auto do wskazanego przez Ciebie mechanika, serwisu lub na parking.</div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Auta na sprzedaż</p>
+        <h2>Z naszego placu</h2>
+        <p class="lead">Samochody z naszego skupu, sprawdzone i opisane uczciwie.</p>
+      </div>
+      <div class="cars" id="carsTeaser"></div>
+      <p style="margin-top:28px"><a class="btn ghost" href="#ogloszenia">Wszystkie ogłoszenia</a></p>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div class="wrap">
+      <div><h2>Potrzebujesz lawety?</h2><p>Zadzwoń i podaj miejsce. Resztą zajmiemy się my.</p></div>
+      <a class="num" href="tel:+48666672900">666 672 900</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========== USŁUGI ========== -->
+<div class="view" id="v-uslugi">
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Usługi</p>
+        <h2>Holowanie, transport,<br>skup aut</h2>
+        <p class="lead">Wszystko, co dzieje się z samochodem, kiedy nie może albo nie powinien jechać sam.</p>
+      </div>
+      <div class="svc-grid" id="svcFull"></div>
+      <div class="note-bar"><b>Naprawy?</b> Tym się nie zajmujemy. Zawieziemy auto do Twojego mechanika, do ASO albo pod dom.</div>
+    </div>
+  </section>
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Jak to wygląda</p>
+        <h2>Od telefonu do rozładunku</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Telefon</h3><p>Dzwonisz pod 666 672 900. Mówisz, gdzie stoisz, co to za auto i dokąd ma jechać.</p></div>
+        <div class="step"><h3>Wycena</h3><p>Podajemy cenę i czas dojazdu, zanim wyjedziemy. Bez niespodzianek na miejscu.</p></div>
+        <div class="step"><h3>Załadunek</h3><p>Wciągamy auto na lawetę i mocujemy pasami za koła.</p></div>
+        <div class="step"><h3>Dostawa</h3><p>Rozładowujemy pod wskazanym adresem. Płacisz po wykonaniu usługi.</p></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Pytania</p>
+        <h2>Najczęściej pytacie</h2>
+      </div>
+      <div class="faq">
+        <details><summary>Ile kosztuje holowanie?</summary><p>Cena zależy od odległości, rodzaju auta i miejsca, w którym stoi. Podajemy ją przez telefon, zanim wyjedziemy. <span class="ph">[Tu możesz dopisać stawkę za km lub cenę minimalną]</span></p></details>
+        <details><summary>Czy przewozicie auta, które nie odpalają albo nie mają kół?</summary><p>Tak. Laweta ma wyciągarkę, więc wciągniemy auto bez napędu, po wypadku lub z zablokowanymi kołami. Przy nietypowej sytuacji opisz ją przez telefon.</p></details>
+        <details><summary>Czy mogę jechać razem z autem?</summary><p>W kabinie lawety jest miejsce dla pasażera. Zapytaj przy zamawianiu.</p></details>
+        <details><summary>Czy kupujecie auta uszkodzone albo bez przeglądu?</summary><p>Tak. Skupujemy auta sprawne, uszkodzone, powypadkowe i niesprawne. Odbiór lawetą jest po naszej stronie.</p></details>
+        <details><summary>Czy naprawiacie samochody?</summary><p>Nie. Zajmujemy się holowaniem, transportem i skupem. Auto do naprawy zawieziemy do wybranego przez Ciebie warsztatu.</p></details>
+        <details><summary>Jak mogę zapłacić?</summary><p><span class="ph">[Gotówka / przelew / BLIK / faktura VAT – uzupełnij]</span></p></details>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== OGŁOSZENIA ========== -->
+<div class="view" id="v-ogloszenia">
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Auta na sprzedaż</p>
+        <h2>Ogłoszenia</h2>
+        <p class="lead">Samochody z naszego skupu. Chcesz obejrzeć auto na żywo? Zadzwoń i umów się na oględziny.</p>
+      </div>
+      <div class="filters" role="search">
+        <div class="field"><label for="fQ">Szukaj</label><input id="fQ" type="search" placeholder="Marka lub model"></div>
+        <div class="field"><label for="fBody">Nadwozie</label>
+          <select id="fBody"><option value="">Wszystkie</option><option>Sedan</option><option>Kombi</option><option>Hatchback</option><option>SUV</option><option>Dostawczy</option></select></div>
+        <div class="field"><label for="fFuel">Paliwo</label>
+          <select id="fFuel"><option value="">Wszystkie</option><option>Benzyna</option><option>Diesel</option><option>Benzyna + LPG</option><option>Hybryda</option></select></div>
+        <div class="field"><label for="fMax">Cena do</label>
+          <select id="fMax"><option value="">Bez limitu</option><option value="10000">10 000 zł</option><option value="20000">20 000 zł</option><option value="35000">35 000 zł</option><option value="50000">50 000 zł</option></select></div>
+        <div class="field"><label for="fSort">Sortuj</label>
+          <select id="fSort"><option value="new">Najnowsze</option><option value="pa">Cena rosnąco</option><option value="pd">Cena malejąco</option><option value="km">Najmniejszy przebieg</option></select></div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div class="cars" id="cars"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== PORTFOLIO ========== -->
+<div class="view" id="v-portfolio">
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Realizacje</p>
+        <h2>Z trasy</h2>
+        <p class="lead">Wybrane zlecenia: holowania, transporty i auta odebrane ze skupu.</p>
+      </div>
+      <div class="chips" role="group" aria-label="Filtruj realizacje">
+        <button class="chip" type="button" data-cat="" aria-pressed="true">Wszystkie</button>
+        <button class="chip" type="button" data-cat="Holowanie" aria-pressed="false">Holowanie</button>
+        <button class="chip" type="button" data-cat="Transport" aria-pressed="false">Transport</button>
+        <button class="chip" type="button" data-cat="Skup" aria-pressed="false">Skup</button>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== SKUP ========== -->
+<div class="view" id="v-skup">
+  <section>
+    <div class="wrap buy-grid">
+      <div>
+        <p class="eyebrow">Skup aut</p>
+        <h2 style="margin-top:16px">Sprzedaj auto<br>w jeden dzień</h2>
+        <p class="lead" style="margin-top:20px">Kupujemy samochody osobowe i dostawcze w każdym stanie. Opisz auto w formularzu albo po prostu zadzwoń.</p>
+        <ul class="checks">
+          <li><svg viewBox="0 0 36 36" fill="none" stroke="#e0141e" stroke-width="3" aria-hidden="true"><rect x="2" y="2" width="32" height="32"/><path d="M10 18 L16 24 L27 12"/></svg><div><b>Każdy stan</b><span>Sprawne, uszkodzone, powypadkowe, bez przeglądu.</span></div></li>
+          <li><svg viewBox="0 0 36 36" fill="none" stroke="#e0141e" stroke-width="3" aria-hidden="true"><rect x="2" y="2" width="32" height="32"/><path d="M10 18 L16 24 L27 12"/></svg><div><b>Odbiór lawetą</b><span>Przyjedziemy po auto, nawet jeśli nie odpala.</span></div></li>
+          <li><svg viewBox="0 0 36 36" fill="none" stroke="#e0141e" stroke-width="3" aria-hidden="true"><rect x="2" y="2" width="32" height="32"/><path d="M10 18 L16 24 L27 12"/></svg><div><b>Płatność od ręki</b><span>Umowa kupna-sprzedaży na miejscu.</span></div></li>
+        </ul>
+      </div>
+      <form class="card" id="buyForm" novalidate>
+        <div class="field"><label for="bMake">Marka</label><input id="bMake" required placeholder="np. Opel"></div>
+        <div class="field"><label for="bModel">Model</label><input id="bModel" required placeholder="np. Astra"></div>
+        <div class="field"><label for="bYear">Rok produkcji</label><input id="bYear" inputmode="numeric" placeholder="np. 2011"></div>
+        <div class="field"><label for="bKm">Przebieg (km)</label><input id="bKm" inputmode="numeric" placeholder="np. 210000"></div>
+        <div class="field"><label for="bFuel">Paliwo</label><select id="bFuel"><option>Benzyna</option><option>Diesel</option><option>Benzyna + LPG</option><option>Hybryda</option><option>Elektryczny</option></select></div>
+        <div class="field"><label for="bState">Stan</label><select id="bState"><option>Sprawny</option><option>Uszkodzony</option><option>Powypadkowy</option><option>Niesprawny / nie odpala</option></select></div>
+        <div class="field full"><label for="bWhere">Gdzie stoi auto</label><input id="bWhere" placeholder="Miejscowość"></div>
+        <div class="field full"><label for="bInfo">Opis (opcjonalnie)</label><textarea id="bInfo" placeholder="Co działa, co nie, co jest uszkodzone"></textarea></div>
+        <div class="field full"><label for="bPhone">Twój telefon</label><input id="bPhone" type="tel" required placeholder="Oddzwonimy z wyceną"></div>
+        <div class="full" style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn" type="submit">Przygotuj zgłoszenie</button>
+          <p class="hint" id="formErr" role="alert"></p>
+        </div>
+        <div class="out" id="out" aria-live="polite">
+          <b>Zgłoszenie gotowe. Wyślij je SMS-em na 666 672 900:</b>
+          <pre id="outText"></pre>
+          <div class="row">
+            <a class="btn" id="smsLink" href="#">Otwórz SMS</a>
+            <button class="btn ghost" type="button" id="copyBtn">Kopiuj treść</button>
+          </div>
+          <p class="hint" id="copyMsg">Jeśli SMS się nie otworzy, skopiuj treść i wyślij ją na 666 672 900.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ========== KONTAKT ========== -->
+<div class="view" id="v-kontakt">
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Najszybciej<br>przez telefon</h2>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <p class="hint" style="letter-spacing:3px;text-transform:uppercase">Holowanie, transport, skup</p>
+          <a class="big-num" href="tel:+48666672900">666 672 900</a>
+          <div class="hero-actions">
+            <a class="btn" href="tel:+48666672900">Zadzwoń</a>
+            <a class="btn ghost" href="sms:+48666672900">Napisz SMS</a>
+          </div>
+        </div>
+        <div>
+          <dl class="info">
+            <dt>Firma</dt><dd>Pomoc Drogowa Danielewski</dd>
+            <dt>Obszar</dt><dd><span class="ph">[MIASTO / REGION]</span></dd>
+            <dt>Godziny</dt><dd><span class="ph">[GODZINY PRACY]</span></dd>
+            <dt>Adres placu</dt><dd><span class="ph">[ULICA, KOD, MIASTO]</span></dd>
+            <dt>E-mail</dt><dd><span class="ph">[ADRES E-MAIL]</span></dd>
+            <dt>NIP</dt><dd><span class="ph">[NIP]</span></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<div class="stripe"></div>
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Pomoc Drogowa Danielewski · Holowanie · Transport · Skup aut</span>
+    <a href="tel:+48666672900" style="text-decoration:none;font-weight:700">666 672 900</a>
+  </div>
+</footer>
+
+<a class="callbar" href="tel:+48666672900">Zadzwoń · 666 672 900</a>
+
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <button class="close" type="button" id="dlgClose" aria-label="Zamknij">×</button>
+  <div class="dlg" id="dlgBody"></div>
+</dialog>
+
+<script>
+(function(){
+  var PHONE = '666 672 900', TEL = '+48666672900';
+
+  /* ---------- Usługi ---------- */
+  var ICON = {
+    tow:'<svg viewBox="0 0 72 48" fill="none" stroke="#e0141e" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><path d="M3 38 V22 L10 10 H24 V30 H69 V34 H60 L58 38"/><path d="M28 30 V24 Q28 22 31 21 L39 19 Q44 13 50 13 H56 Q61 13 64 18 L68 21 V30"/><circle cx="14" cy="40" r="6"/><circle cx="52" cy="40" r="6"/></svg>',
+    road:'<svg viewBox="0 0 72 48" fill="none" stroke="#e0141e" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><path d="M4 44 L22 4"/><path d="M68 44 L50 4"/><path d="M36 8 V14 M36 22 V28 M36 36 V44"/></svg>',
+    cash:'<svg viewBox="0 0 72 48" fill="none" stroke="#e0141e" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="64" height="32"/><circle cx="36" cy="24" r="8"/><path d="M12 16 V32 M60 16 V32"/></svg>'
+  };
+  var SVC = [
+    {n:'01',k:'tow',t:'Holowanie',d:'Awaria, kolizja, auto, które nie odpala. Przyjeżdżamy lawetą i zabieramy samochód tam, gdzie wskażesz.',l:['Awarie i kolizje','Auta bez napędu, wciągarka','Do warsztatu, ASO, pod dom']},
+    {n:'02',k:'road',t:'Transport aut',d:'Przewóz samochodu na zaplanowanej trasie: zakup z ogłoszenia, przeprowadzka, auto do serwisu.',l:['Auta osobowe i dostawcze','Odbiór od sprzedającego','Trasy krajowe <span class="ph">[i zagraniczne?]</span>']},
+    {n:'03',k:'cash',t:'Skup aut',d:'Kupimy Twój samochód w każdym stanie. Wycena przez telefon, odbiór lawetą, płatność od ręki.',l:['Sprawne i uszkodzone','Powypadkowe i niesprawne','Umowa na miejscu']}
+  ];
+  var LINK = {Holowanie:'#kontakt','Transport aut':'#kontakt','Skup aut':'#skup'};
+  function svcHTML(full){
+    return SVC.map(function(s){
+      return '<article class="svc"><span class="num">'+s.n+'</span>'+ICON[s.k]+'<h3>'+s.t+'</h3><p class="lead" style="font-size:17px">'+s.d+'</p>'+
+        (full?'<ul>'+s.l.map(function(x){return '<li><span>'+x+'</span></li>'}).join('')+'</ul>':'')+
+        '<a class="more" href="'+LINK[s.t]+'">'+(s.t==='Skup aut'?'Wyceń auto':'Zamów')+' →</a></article>';
+    }).join('');
+  }
+  document.getElementById('svcShort').innerHTML = svcHTML(false);
+  document.getElementById('svcFull').innerHTML = svcHTML(true);
+
+  /* ---------- Ogłoszenia ----------
+     PRZYKŁADOWE DANE – podmień na prawdziwe auta. Każdy wpis to jedno ogłoszenie. */
+  var CARS = [
+    {id:1,make:'Opel',model:'Astra J',year:2012,km:184000,fuel:'Benzyna',body:'Hatchback',gear:'Manualna',power:'1.4 / 100 KM',price:18900,color:'#c9ccd1',status:'',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'},
+    {id:2,make:'Skoda',model:'Octavia II',year:2010,km:245000,fuel:'Diesel',body:'Kombi',gear:'Manualna',power:'1.9 TDI / 105 KM',price:15500,color:'#3d4a5c',status:'Nowe',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'},
+    {id:3,make:'Toyota',model:'Corolla',year:2015,km:139000,fuel:'Benzyna',body:'Sedan',gear:'Manualna',power:'1.6 / 132 KM',price:36900,color:'#e9e9e6',status:'',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'},
+    {id:4,make:'Ford',model:'Transit',year:2013,km:298000,fuel:'Diesel',body:'Dostawczy',gear:'Manualna',power:'2.2 TDCi / 125 KM',price:29500,color:'#f4f4f2',status:'',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'},
+    {id:5,make:'Kia',model:'Sportage',year:2014,km:162000,fuel:'Benzyna + LPG',body:'SUV',gear:'Manualna',power:'1.6 / 135 KM',price:44900,color:'#7a1b1f',status:'Zarezerwowane',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'},
+    {id:6,make:'Volkswagen',model:'Golf VI',year:2009,km:221000,fuel:'Benzyna',body:'Hatchback',gear:'Manualna',power:'1.4 / 80 KM',price:9900,color:'#1f1f22',status:'Do naprawy',desc:'Przykładowy opis. Opisz stan auta, wyposażenie i ewentualne usterki.'}
+  ];
+
+  var BODY = {
+    Sedan:'M30 112 V92 Q30 84 40 82 L96 74 Q130 46 178 44 H254 Q290 44 318 70 L384 80 Q402 84 402 98 V112 Z',
+    Kombi:'M30 112 V92 Q30 84 40 82 L96 74 Q130 46 178 44 H352 Q372 44 384 62 L398 84 Q402 90 402 98 V112 Z',
+    Hatchback:'M40 112 V92 Q40 84 50 82 L104 72 Q138 44 186 42 H300 Q336 44 356 70 L376 86 Q384 92 384 100 V112 Z',
+    SUV:'M30 112 V82 Q30 72 42 70 L92 64 Q118 32 166 30 H330 Q366 30 384 54 L398 74 Q402 80 402 90 V112 Z',
+    Dostawczy:'M24 112 V70 Q24 60 32 52 L72 22 Q80 16 92 16 H392 Q404 16 404 28 V112 Z'
+  };
+  var GLASS = {
+    Sedan:'M114 72 Q140 54 180 52 H214 V72 Z M224 52 H252 Q282 52 302 72 H224 Z',
+    Kombi:'M114 72 Q140 54 180 52 H232 V72 Z M242 52 H346 Q360 52 368 64 L374 72 H242 Z',
+    Hatchback:'M120 72 Q146 52 188 50 H236 V72 Z M246 50 H298 Q326 52 342 72 H246 Z',
+    SUV:'M108 62 Q130 40 168 38 H230 V62 Z M240 38 H326 Q356 38 372 62 H240 Z',
+    Dostawczy:'M44 54 L78 26 H110 V54 Z'
+  };
+  var WHEELS = {Sedan:[106,332],Kombi:[106,340],Hatchback:[110,320],SUV:[108,336],Dostawczy:[96,338]};
+  function carSVG(c){
+    var w = WHEELS[c.body];
+    var wh = w.map(function(x){return '<circle cx="'+x+'" cy="112" r="26" fill="#111"/><circle cx="'+x+'" cy="112" r="12" fill="#3a3a40"/>';}).join('');
+    return '<svg viewBox="0 0 430 150" aria-hidden="true"><ellipse cx="216" cy="140" rx="200" ry="7" fill="#000" opacity=".5"/>'+
+      '<path d="'+BODY[c.body]+'" fill="'+c.color+'" stroke="#000" stroke-width="2"/>'+
+      '<path d="'+GLASS[c.body]+'" fill="#0d0f12" opacity=".85"/>'+wh+'</svg>';
+  }
+  function zl(n){return n.toLocaleString('pl-PL').replace(/ /g,' ')+' zł';}
+  function kmf(n){return n.toLocaleString('pl-PL').replace(/ /g,' ')+' km';}
+  function cardHTML(c){
+    return '<article class="car"><div class="car-img"><span class="badge">Przykład</span>'+
+      (c.status?'<span class="tag">'+c.status+'</span>':'')+carSVG(c)+'</div>'+
+      '<div class="car-body"><h3>'+c.make+' '+c.model+'</h3>'+
+      '<div class="specs"><span>'+c.year+'</span><span>'+kmf(c.km)+'</span><span>'+c.fuel+'</span><span>'+c.body+'</span></div>'+
+      '<div class="price">'+zl(c.price)+' <small>do negocjacji</small></div>'+
+      '<button class="btn ghost" type="button" data-car="'+c.id+'">Szczegóły</button></div></article>';
+  }
+  document.getElementById('carsTeaser').innerHTML = CARS.slice(0,3).map(cardHTML).join('');
+
+  var fQ=document.getElementById('fQ'),fBody=document.getElementById('fBody'),fFuel=document.getElementById('fFuel'),fMax=document.getElementById('fMax'),fSort=document.getElementById('fSort');
+  function renderCars(){
+    var q=fQ.value.trim().toLowerCase(), max=+fMax.value||Infinity;
+    var list=CARS.filter(function(c){
+      return (!q||(c.make+' '+c.model).toLowerCase().indexOf(q)>-1) && (!fBody.value||c.body===fBody.value) && (!fFuel.value||c.fuel===fFuel.value) && c.price<=max;
+    });
+    var s=fSort.value;
+    list.sort(function(a,b){return s==='pa'?a.price-b.price:s==='pd'?b.price-a.price:s==='km'?a.km-b.km:b.id-a.id;});
+    var n=list.length;
+    document.getElementById('count').textContent = n===1?'1 samochód':(n>=2&&n<=4?n+' samochody':n+' samochodów');
+    document.getElementById('cars').innerHTML = n?list.map(cardHTML).join(''):'<div class="empty">Brak aut spełniających kryteria. Zmień filtry albo zadzwoń: '+PHONE+'.</div>';
+  }
+  [fQ,fBody,fFuel,fMax,fSort].forEach(function(el){el.addEventListener('input',renderCars);});
+  renderCars();
+
+  var dlg=document.getElementById('dlg');
+  function openCar(id){
+    var c=CARS.filter(function(x){return x.id===id;})[0]; if(!c) return;
+    document.getElementById('dlgBody').innerHTML =
+      '<div class="car-img"><span class="badge">Przykład</span>'+(c.status?'<span class="tag" style="right:64px">'+c.status+'</span>':'')+carSVG(c)+'</div>'+
+      '<div class="dlg-body"><h3 id="dlgTitle" style="font-size:30px">'+c.make+' '+c.model+'</h3>'+
+      '<div class="price">'+zl(c.price)+' <small>do negocjacji</small></div>'+
+      '<table><tbody>'+
+      [['Rok produkcji',c.year],['Przebieg',kmf(c.km)],['Paliwo',c.fuel],['Silnik',c.power],['Skrzynia biegów',c.gear],['Nadwozie',c.body]].map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join('')+
+      '</tbody></table><p class="lead" style="font-size:16px">'+c.desc+'</p>'+
+      '<div class="dlg-actions"><a class="btn" href="tel:'+TEL+'">Zadzwoń '+PHONE+'</a><a class="btn ghost" href="sms:'+TEL+'?body='+encodeURIComponent('Dzień dobry, pytam o ogłoszenie: '+c.make+' '+c.model+' '+c.year+', '+zl(c.price)+'.')+'">Zapytaj SMS-em</a></div></div>';
+    try{dlg.showModal();}catch(e){dlg.setAttribute('open','');}
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-car]'); if(b) openCar(+b.getAttribute('data-car'));
+  });
+  document.getElementById('dlgClose').addEventListener('click',function(){dlg.close();});
+  dlg.addEventListener('click',function(e){if(e.target===dlg) dlg.close();});
+
+  /* ---------- Portfolio ----------
+     Miejsca na zdjęcia – podmień opisy i wstaw własne fotografie. */
+  var JOBS = [
+    {cat:'Holowanie',t:'Holowanie po kolizji',p:'<span class="ph">[Miejscowość]</span> → <span class="ph">[warsztat]</span>. Krótko, co się działo.',wide:true},
+    {cat:'Transport',t:'Auto kupione z ogłoszenia',p:'<span class="ph">[Skąd]</span> → <span class="ph">[dokąd]</span>, <span class="ph">[liczba]</span> km.'},
+    {cat:'Skup',t:'Odbiór auta do skupu',p:'<span class="ph">[Marka, model, rok]</span>, auto nie odpalało.'},
+    {cat:'Holowanie',t:'Awaria na trasie',p:'<span class="ph">[Droga / miejsce]</span>, holowanie do ASO.'},
+    {cat:'Transport',t:'Transport auta dostawczego',p:'<span class="ph">[Model]</span>, <span class="ph">[trasa]</span>.'},
+    {cat:'Skup',t:'Auto powypadkowe',p:'<span class="ph">[Marka, model]</span>, odebrane lawetą spod domu.'}
+  ];
+  var CAM='<svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 14 H14 L18 8 H28 L32 14 H42 V38 H4 Z"/><circle cx="23" cy="25" r="8"/></svg>';
+  var curCat='';
+  function renderJobs(){
+    document.getElementById('gallery').innerHTML = JOBS.filter(function(j){return !curCat||j.cat===curCat;}).map(function(j){
+      return '<article class="job'+(j.wide&&!curCat?' wide':'')+'"><div class="shot">'+CAM+'<span>Miejsce na zdjęcie</span></div><div class="job-body"><span class="k">'+j.cat+'</span><h3 style="font-size:20px">'+j.t+'</h3><p>'+j.p+'</p></div></article>';
+    }).join('');
+  }
+  document.querySelectorAll('.chip').forEach(function(b){
+    b.addEventListener('click',function(){
+      curCat=b.getAttribute('data-cat');
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      renderJobs();
+    });
+  });
+  renderJobs();
+
+  /* ---------- Formularz skupu ---------- */
+  var form=document.getElementById('buyForm');
+  function v(id){return document.getElementById(id).value.trim();}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var err=document.getElementById('formErr');
+    if(!v('bMake')||!v('bModel')||!v('bPhone')){err.textContent='Uzupełnij markę, model i numer telefonu.';return;}
+    err.textContent='';
+    var txt='Skup aut – zgłoszenie\n'+v('bMake')+' '+v('bModel')+(v('bYear')?', '+v('bYear'):'')+
+      (v('bKm')?'\nPrzebieg: '+v('bKm')+' km':'')+'\nPaliwo: '+v('bFuel')+'\nStan: '+v('bState')+
+      (v('bWhere')?'\nLokalizacja: '+v('bWhere'):'')+(v('bInfo')?'\nOpis: '+v('bInfo'):'')+'\nKontakt: '+v('bPhone');
+    document.getElementById('outText').textContent=txt;
+    document.getElementById('smsLink').href='sms:'+TEL+'?body='+encodeURIComponent(txt);
+    document.getElementById('out').classList.add('on');
+    document.getElementById('copyMsg').textContent='Jeśli SMS się nie otworzy, skopiuj treść i wyślij ją na '+PHONE+'.';
+  });
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    var t=document.getElementById('outText').textContent, m=document.getElementById('copyMsg');
+    try{navigator.clipboard.writeText(t).then(function(){m.textContent='Skopiowano. Wklej treść do SMS-a na '+PHONE+'.';},function(){m.textContent='Nie udało się skopiować. Zaznacz tekst powyżej i skopiuj ręcznie.';});}
+    catch(_){m.textContent='Nie udało się skopiować. Zaznacz tekst powyżej i skopiuj ręcznie.';}
+  });
+
+  /* ---------- Zakładki (routing po #) ---------- */
+  var VIEWS=['start','uslugi','ogloszenia','portfolio','skup','kontakt'];
+  var tabs=document.getElementById('tabs'), menuBtn=document.getElementById('menuBtn');
+  function route(){
+    var h=(location.hash||'').slice(1); if(VIEWS.indexOf(h)<0) h='start';
+    VIEWS.forEach(function(n){document.getElementById('v-'+n).classList.toggle('on',n===h);});
+    tabs.querySelectorAll('a').forEach(function(a){
+      if(a.getAttribute('href')==='#'+h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    tabs.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',route);
+  menuBtn.addEventListener('click',function(){
+    var o=tabs.classList.toggle('open'); menuBtn.setAttribute('aria-expanded',o?'true':'false');
+  });
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  route();
+})();
+</script>
+</body>
+</html>
